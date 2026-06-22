@@ -1,0 +1,51 @@
+{
+  "Comment": "Workflow responsável pela publicação de notificações utilizando Amazon SNS.",
+  "StartAt": "PublishNotification",
+  "States": {
+
+    "PublishNotification": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "arn:aws:sns:us-east-1:123456789012:file-processing-topic",
+        "Message": {
+          "event.$": "$.event",
+          "filename.$": "$.filename",
+          "status.$": "$.status"
+        },
+        "Subject": "File Processing Notification"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "NotificationFailed"
+        }
+      ],
+      "Next": "NotificationSucceeded"
+    },
+
+    "NotificationSucceeded": {
+      "Type": "Succeed",
+      "Comment": "Mensagem publicada com sucesso no SNS."
+    },
+
+    "NotificationFailed": {
+      "Type": "Fail",
+      "Error": "SNSPublishError",
+      "Cause": "Falha ao publicar mensagem no tópico SNS."
+    }
+
+  }
+}
