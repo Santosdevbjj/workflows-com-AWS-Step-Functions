@@ -1,0 +1,7 @@
+# Nenhuma dependência externa é necessária.
+
+# Bibliotecas utilizadas:
+# - json
+# - logging
+
+# Todas fazem parte da biblioteca padrão do Python.
