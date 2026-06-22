@@ -8,6 +8,7 @@
 
 ## Fluxo
 
+```
 Arquivo Recebido
         |
         ▼
@@ -21,21 +22,27 @@ Arquivo válido?
   ▼               ▼
 Success         Fail 
 
+```
 
 ---
 
 ## Exemplo de entrada
 
+``` 
+
 {
   "filename": "clientes.csv"
 }  
 
+
+```
 ---
 
 
 
 ## Exemplo de saída
 
+```
 
 {
   "filename": "clientes.csv",
@@ -44,6 +51,9 @@ Success         Fail
   }
 } 
 
+
+
+```
 
 ---
 
