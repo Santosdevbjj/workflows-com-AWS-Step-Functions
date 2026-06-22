@@ -719,11 +719,234 @@ Step Functions;
 EventBridge;
 SQS;
 SNS;
+API Gateway.
 
+
+---
+
+# lambda notify_execution
+
+
+Variáveis de ambiente
+Esta Lambda utiliza:
+
+```
+TOPIC_ARN
+
+```
+
+
+
+Exemplo
+
+```
+
+arn:aws:sns:us-east-1:123456789012:file-processing-topic
+
+```
+
+---
+
+# Fluxo
+
+```
+
+Step Functions
+      |
+      ▼
+Notify Execution Lambda
+      |
+      ▼
+Amazon SNS Topic
+      |
+      ▼
+Subscribers
+(E-mail, Lambda, SQS, etc.)
+
+
+```
 
 
 ---
 
 
+# Exemplo de entrada
 
-API Gateway.
+```
+
+
+
+{
+  "filename": "clientes.csv",
+  "status": "processed"
+}
+
+
+```
+
+---
+
+# Mensagem publicada no SNS
+
+```
+
+{
+  "event": "file_processed",
+  "filename": "clientes.csv",
+  "status": "processed"
+}
+
+
+```
+
+
+---
+
+
+# Saída da Lambda
+
+```
+
+{
+  "status": "notification_sent",
+  "message_id": "7caa6b5f-9ef5-5c0c-a8ec-4d61eb31cf17",
+  "filename": "clientes.csv"
+}
+
+
+```
+
+---
+
+# Logs gerados no CloudWatch
+
+```
+
+START RequestId: xxxx
+
+INFO Iniciando envio de notificação.
+INFO Publicando evento no SNS para arquivo clientes.csv
+INFO Mensagem publicada com sucesso. MessageId: 7caa6b5f...
+
+END RequestId: xxxx
+REPORT RequestId: xxxx
+
+
+```
+
+---
+
+
+
+# Boas práticas implementadas
+
+## Logging estruturado
+
+```
+
+logger.info("Iniciando envio de notificação")
+
+```
+
+---
+
+# Uso de variável de ambiente
+
+```
+
+TOPIC_ARN = os.getenv("TOPIC_ARN")
+
+```
+
+---
+
+
+Evita hardcoding.
+
+
+# Tratamento de exceções
+
+```
+
+try:
+    ...
+except Exception as error:
+    ...
+
+
+```
+
+---
+
+
+
+# Responsabilidade única
+
+Esta Lambda faz apenas:
+Construção da mensagem;
+Publicação no SNS;
+Retorno do resultado.
+
+
+
+# Integração desacoplada
+
+Os consumidores do SNS podem ser:
+Amazon SQS;
+Outra Lambda;
+Email;
+EventBridge;
+HTTP Endpoint.
+
+
+---
+
+# Estrutura atual da pasta lambda
+
+```
+lambda/
+│
+├── validate_file/
+│     ├── lambda_function.py
+│     └── requirements.txt
+│
+├── process_data/
+│     ├── lambda_function.py
+│     └── requirements.txt
+│
+└── notify_execution/
+      ├── lambda_function.py
+      └── requirements.txt
+
+
+```
+
+
+Com essas três funções, o projeto já possui uma arquitetura serverless completa baseada em:
+
+```
+
+
+Step Functions
+      ↓
+Validate File
+      ↓
+Process Data
+      ↓
+Notify Execution
+      ↓
+Amazon SNS
+      ↓
+Amazon SQS
+      ↓
+Consumers
+
+
+```
+
+
+em um padrão bastante próximo de aplicações distribuídas modernas utilizadas em ambientes corporativos.
+
+---
+
+
