@@ -1,2243 +1,395 @@
-## Formação AWS Cloud Foundations
+# 🚀 Workflows Automatizados com AWS Step Functions
 
-<img width="105" height="120" alt="1000127839" src="https://github.com/user-attachments/assets/19a72c1f-9f5d-4efc-93db-3fdae64064a0" />
+<img width="105" height="120" alt="AWS Step Functions" src="https://github.com/user-attachments/assets/19a72c1f-9f5d-4efc-93db-3fdae64064a0" />
 
-## Explorando Workflows Automatizados com AWS Step Functions. 
-
-
-## DESCRIÇÃO:
-
-Explore o AWS Step Functions, serviço de orquestração de fluxos de trabalho, que permite integrar e automatizar serviços da AWS (como Lambda, S3, SNS, SQS e DynamoDB) de forma visual e com pouco código. Durante a prática, crie e executar workflows para validar arquivos, acionar funções, coordenar serviços e monitorar execuções, aplicando conceitos de automação, mensageria e boas práticas de arquitetura em nuvem.
-
-
----
-
-
-
-
-✅ Storytelling técnico;
-
-✅ AWS Well-Architected Framework;
-
-✅ Foco em resolver problemas, e não apenas demonstrar ferramentas.
-
-
-🚀 Explorando Workflows Automatizados com AWS Step Functions
-
-«Orquestrando aplicações distribuídas e orientadas a eventos com AWS Step Functions, Lambda, SNS e SQS, aplicando conceitos de automação, resiliência e observabilidade em arquiteturas serverless.»
-
----
-
-📌 Visão Geral
-
-Aplicações modernas são compostas por diversos serviços distribuídos que precisam trabalhar em conjunto. Coordenar essas integrações apenas através de código pode aumentar a complexidade, dificultar o tratamento de falhas e comprometer a observabilidade.
-
-Este projeto demonstra como utilizar o AWS Step Functions para orquestrar workflows automatizados, integrando serviços como:
-
-- AWS Lambda
-- Amazon SNS
-- Amazon SQS
-- Amazon DynamoDB
-- Amazon CloudWatch
-
-A solução implementa uma arquitetura orientada a eventos (Event-Driven Architecture), permitindo a execução coordenada de tarefas com baixo acoplamento, maior escalabilidade e melhor capacidade de monitoramento.
-
----
-
-🎯 Objetivo do Projeto
-
-Este projeto foi desenvolvido durante a formação AWS Cloud Foundations com o objetivo de:
-
-- Consolidar conhecimentos sobre AWS Step Functions;
-- Compreender a construção de máquinas de estados (State Machines);
-- Implementar integrações com serviços serverless;
-- Aplicar boas práticas do AWS Well-Architected Framework;
-- Construir um material de consulta para futuras implementações.
-
-Mais do que aprender uma ferramenta, o objetivo é compreender como resolver problemas reais de orquestração em sistemas distribuídos.
-
----
-
-🏢 Problema de Negócio
-
-Em aplicações modernas, diversas etapas precisam ser executadas em sequência:
-
-1. Receber um arquivo;
-2. Validar seu conteúdo;
-3. Processar os dados;
-4. Publicar eventos;
-5. Notificar consumidores;
-6. Monitorar a execução.
-
-Quando essa coordenação é implementada diretamente no código da aplicação, surgem problemas como:
-
-- Alto acoplamento;
-- Complexidade excessiva;
-- Baixa observabilidade;
-- Dificuldade de recuperação em caso de falhas;
-- Baixa escalabilidade.
-
-O desafio é construir um fluxo resiliente e monitorável utilizando serviços gerenciados da AWS.
-
----
-
-🌎 Contexto
-
-Arquiteturas modernas são cada vez mais orientadas a eventos e compostas por microsserviços.
-
-Nesse cenário, torna-se necessário:
-
-- Coordenar tarefas;
-- Implementar mecanismos de retry;
-- Tratar exceções;
-- Garantir observabilidade;
-- Desacoplar componentes.
-
-O AWS Step Functions atua como um orquestrador visual, permitindo que cada serviço mantenha responsabilidade única enquanto o fluxo é coordenado por uma máquina de estados.
-
----
-
-📋 Premissas
-
-Durante o desenvolvimento foram consideradas as seguintes premissas:
-
-- O arquivo recebido deve possuir extensão válida;
-- O processamento é executado por funções Lambda;
-- Notificações são publicadas utilizando Amazon SNS;
-- O desacoplamento entre produtores e consumidores é realizado através do Amazon SQS;
-- Falhas são esperadas em sistemas distribuídos e devem ser tratadas;
-- Logs e métricas fazem parte da arquitetura, e não são adicionados posteriormente.
-
----
-
-🏗 Arquitetura da Solução
-
-Input
-  │
-  ▼
-AWS Step Functions
-  │
-  ▼
-Validate File Lambda
-  │
-  ▼
-Process Data Lambda
-  │
-  ▼
-Notify Execution Lambda
-  │
-  ▼
-Amazon SNS
-  │
-  ▼
-Amazon SQS
-  │
-  ▼
-Consumers
-  │
-  ▼
-CloudWatch Logs
-
----
-
-⚙ Estratégia da Solução
-
-A estratégia utilizada foi dividida em etapas:
-
-1. Entendimento do problema
-
-Identificar como aplicações distribuídas coordenam tarefas e tratam falhas.
-
-2. Construção da máquina de estados
-
-Utilizando AWS Step Functions.
-
-3. Implementação das funções Lambda
-
-- validate_file
-- process_data
-- notify_execution
-
-4. Integração com serviços de mensageria
-
-- Amazon SNS
-- Amazon SQS
-
-5. Tratamento de erros
-
-Aplicando:
-
-- Retry Pattern;
-- Catch Pattern;
-- Fail State.
-
-6. Observabilidade
-
-Integração com:
-
-- CloudWatch Logs;
-- Metrics;
-- Tracing.
-
----
-
-⚡ Decisões Técnicas
-
-Por que AWS Step Functions?
-
-Porque permite:
-
-- Criar workflows visualmente;
-- Reduzir código de orquestração;
-- Melhorar observabilidade;
-- Implementar retries nativamente.
-
-Alternativas consideradas
-
-- Implementar toda a lógica em uma única Lambda;
-- EventBridge;
-- Código procedural tradicional.
-
-Trade-offs
-
-Foi escolhida uma arquitetura baseada em State Machines porque ela proporciona:
-
-✔ Maior legibilidade;
-
-✔ Melhor manutenção;
-
-✔ Recuperação automática de falhas;
-
-✔ Menor acoplamento entre componentes.
-
----
-
-🛠 Tecnologias Utilizadas
-
-Serviços AWS
-
-- AWS Step Functions
-- AWS Lambda
-- Amazon SNS
-- Amazon SQS
-- Amazon DynamoDB
-- Amazon CloudWatch
-
-Linguagem
-
-- Python 3.13
-
-SDK
-
-- boto3
-
-Conceitos
-
-- Serverless Computing
-- Event-Driven Architecture
-- Retry Pattern
-- Fail Fast
-- Observabilidade
-- State Machines
-
----
-
-📂 Estrutura do Repositório
-
-workflows-com-AWS-Step-Functions/
-│
-├── docs/
-├── workflows/
-├── lambda/
-├── examples/
-├── notes/
-├── references/
-├── images/
-│
-├── .gitignore
-├── LICENSE
-└── README.mdNa próxima parte do README serão incluídas:
-
-Como executar o projeto;
-
-Estrutura das Lambdas;
-
-Workflows implementados;
-
-Integrações com SNS, SQS, ECS e EKS;
-
-Observabilidade;
-
-Insights e aprendizados;
-
-Resultados;
-
-Próximos passos;
-
-Referências;
-
----
-
-
-
-🚀 Como Executar o Projeto
-
-Pré-requisitos
-
-- Conta AWS
-- AWS CLI configurado
-- Python 3.13+
-- Git
-- Conhecimentos básicos sobre serviços AWS
-
----
-
-Clonar o repositório
-
-git clone https://github.com/Santosdevbjj/workflows-com-AWS-Step-Functions.git
-
-cd workflows-com-AWS-Step-Functions
-
----
-
-Criar ambiente virtual
-
-python -m venv .venv
-
-Linux/Mac:
-
-source .venv/bin/activate
-
-Windows:
-
-.venv\Scripts\activate
-
----
-
-Instalar dependências
-
-validate_file
-
-cd lambda/validate_file
-
-pip install -r requirements.txt
-
-process_data
-
-cd ../process_data
-
-pip install -r requirements.txt
-
-notify_execution
-
-cd ../notify_execution
-
-pip install -r requirements.txt
-
----
-
-🔄 Workflows Implementados
-
-1. Validação de Arquivos
-
-Arquivo:
-
-workflows/file-validation-workflow.json
-
-Fluxo:
-
-Input
- ↓
-Validate File
- ↓
-Success / Fail
-
-Objetivo:
-
-Garantir que apenas arquivos válidos avancem no pipeline.
-
----
-
-2. Processamento de Dados
-
-Arquivo:
-
-workflows/lambda-execution-workflow.json
-
-Fluxo:
-
-Input
- ↓
-Process Data
- ↓
-Success
-
-Objetivo:
-
-Executar processamento desacoplado através do AWS Lambda.
-
----
-
-3. Notificações com SNS
-
-Arquivo:
-
-workflows/sns-notification-workflow.json
-
-Fluxo:
-
-Lambda
- ↓
-SNS Topic
- ↓
-Subscribers
-
-Objetivo:
-
-Aplicar padrão Publish/Subscribe.
-
----
-
-4. Processamento Assíncrono com SQS
-
-Arquivo:
-
-workflows/sqs-processing-workflow.json
-
-Fluxo:
-
-Producer
- ↓
-SQS Queue
- ↓
-Consumer
-
-Objetivo:
-
-Absorver picos de carga e aumentar a resiliência.
-
----
-
-5. Workflow Serverless Completo
-
-Arquivo:
-
-workflows/complete-serverless-workflow.json
-
-Fluxo:
-
-Input
- ↓
-Validate File
- ↓
-Process Data
- ↓
-Notify Execution
- ↓
-SNS
- ↓
-SQS
- ↓
-Consumers
-
----
-
-λ Funções Lambda
-
-validate_file
-
-Responsável por:
-
-- Receber o nome do arquivo;
-- Validar extensão;
-- Retornar resultado.
-
----
-
-process_data
-
-Responsável por:
-
-- Simular processamento;
-- Produzir informações de saída;
-- Registrar logs.
-
----
-
-notify_execution
-
-Responsável por:
-
-- Publicar mensagens no SNS;
-- Notificar consumidores;
-- Desacoplar componentes.
-
----
-
-📊 Observabilidade
-
-A observabilidade foi tratada como parte da arquitetura.
-
-Serviços estudados:
-
-Amazon CloudWatch
-
-- Logs
-- Métricas
-- Alarmes
-
-AWS X-Ray
-
-- Distributed Tracing
-- Service Map
-
-CloudTrail
-
-- Auditoria
-- Histórico de chamadas
-
----
-
-🧠 Principais Insights
-
-O Step Functions é um orquestrador
-
-A lógica de negócio permanece nas Lambdas.
-
----
-
-Sistemas distribuídos falham
-
-Por isso foram estudados:
-
-- Retry Pattern
-- Catch Pattern
-- Fail State
-
----
-
-Event-Driven Architecture reduz acoplamento
-
-SNS e SQS permitem construir sistemas mais resilientes.
-
----
-
-Observabilidade é fundamental
-
-Logs são parte da arquitetura.
-
-Não um recurso opcional.
-
----
-
-Simplicidade é uma vantagem
-
-Fluxos menores:
-
-- São mais legíveis;
-- São mais fáceis de manter;
-- Possuem menor risco operacional.
-
----
-
-📈 Resultados Obtidos
-
-Este laboratório permitiu compreender na prática:
-
-Orquestração de workflows
-
-Com AWS Step Functions.
-
-Integração entre serviços
-
-- Lambda
-- SNS
-- SQS
-
-Arquiteturas orientadas a eventos
-
-Com baixo acoplamento.
-
-Resiliência
-
-Tratamento de falhas e retries.
-
-Observabilidade
-
-Logs, métricas e rastreamento.
-
-Serverless Computing
-
-Redução da complexidade operacional.
-
-Mais importante do que aprender serviços específicos, foi compreender como resolver problemas de coordenação em sistemas distribuídos.
-
----
-
-📚 Aprendizados
-
-Durante o desenvolvimento deste projeto, alguns pontos se destacaram.
-
-Falhas são normais
-
-Sistemas distribuídos devem ser construídos considerando falhas.
-
----
-
-Serviços gerenciados reduzem carga operacional
-
-Permitem que o foco permaneça no problema de negócio.
-
----
-
-O Step Functions simplifica a coordenação
-
-Separando claramente:
-
-- Fluxo;
-- Regras de negócio;
-- Tratamento de erros.
-
----
-
-Serverless não elimina arquitetura
-
-Segurança, custos e observabilidade continuam sendo responsabilidades do arquiteto.
-
----
-
-📁 Exemplos Disponíveis
-
-Pasta:
-
-examples/
-
-Arquivos:
-
-- input.json
-- output.json
-- success-response.json
-- error-response.json
-
-Esses exemplos facilitam:
-
-- Testes;
-- Reprodutibilidade;
-- Documentação.
-
----
-
-📖 Documentação Complementar
-
-Pasta:
-
-docs/
-
-Contém:
-
-- architecture.md
-- step-functions-concepts.md
-- lambda-integration.md
-- validation-workflow.md
-- sns-sqs-integration.md
-- ecs-eks-integration.md
-- monitoring-and-observability.md
-- best-practices.md
-- lessons-learned.md
-
----
-
-📝 Anotações
-
-Pasta:
-
-notes/
-
-Contém:
-
-- lab-notes.md
-- insights.md
-- study-plan.md
-
----
-
-🔗 Referências
-
-Pasta:
-
-references/
-
-Contém:
-
-- useful-links.md
-- aws-documentation.md
-
-Todo o projeto foi baseado em documentação oficial da AWS e nas recomendações do AWS Well-Architected Framework.Na terceira e última parte do README serão incluídos:
-
-
-
-
-
-
-
-
-
-🚀 Próximos Passos
-
-Este projeto representa um primeiro passo na construção de arquiteturas distribuídas e orientadas a eventos utilizando serviços gerenciados da AWS.
-
-As próximas evoluções previstas são:
-
-Infraestrutura como Código
-
-- [ ] AWS CDK
-- [ ] Terraform
-- [ ] CloudFormation
-
----
-
-Persistência
-
-- [ ] Integração com Amazon DynamoDB
-- [ ] Armazenamento de metadados
-- [ ] Auditoria das execuções
-
----
-
-Observabilidade
-
-- [ ] Dashboards no CloudWatch
-- [ ] Alarmes automáticos
-- [ ] Distributed Tracing com AWS X-Ray
-
----
-
-Processamento em Escala
-
-- [ ] Parallel State
-- [ ] Map State
-- [ ] Distributed Map
-
----
-
-Arquiteturas Avançadas
-
-- [ ] Saga Pattern
-- [ ] Callback Pattern
-- [ ] EventBridge
-- [ ] ECS Fargate
-- [ ] Amazon EKS
-
----
-
-DevOps
-
-- [ ] GitHub Actions
-- [ ] CI/CD
-- [ ] Testes automatizados
-- [ ] Deploy contínuo
-
----
-
-🛣 Roadmap
-
-Fundamentos
-    ↓
-AWS Step Functions
-    ↓
-Lambda + SNS + SQS
-    ↓
-DynamoDB
-    ↓
-CloudWatch + X-Ray
-    ↓
-EventBridge
-    ↓
-ECS Fargate
-    ↓
-EKS
-    ↓
-Terraform
-    ↓
-CI/CD
-
----
-
-🏛 AWS Well-Architected Framework
-
-Durante o desenvolvimento foram considerados os seis pilares do AWS Well-Architected Framework.
-
-Operational Excellence
-
-- Logging
-- Monitoramento
-- Automação
-
----
-
-Security
-
-- Princípio do menor privilégio
-- Variáveis de ambiente
-- Uso do IAM
-
----
-
-Reliability
-
-- Retry Pattern
-- Catch Pattern
-- Fail State
-
----
-
-Performance Efficiency
-
-- Serviços serverless
-- Escalabilidade automática
-
----
-
-Cost Optimization
-
-- Pay-as-you-go
-- Ausência de servidores dedicados
-
----
-
-Sustainability
-
-- Uso de serviços gerenciados
-- Otimização de recursos computacionais
-
----
-
-✅ Boas Práticas Implementadas
-
-Responsabilidade Única
-
-Cada Lambda possui apenas uma responsabilidade:
-
-validate_file
-
-Validação dos arquivos.
-
-process_data
-
-Processamento dos dados.
-
-notify_execution
-
-Publicação de eventos.
-
----
-
-Event-Driven Architecture
-
-Integração utilizando:
-
-- SNS
-- SQS
-
----
-
-Observabilidade
-
-- CloudWatch Logs
-- Logging estruturado
-
----
-
-Tratamento de Erros
-
-Implementação dos padrões:
-
-- Retry
-- Catch
-- Fail State
-
----
-
-Baixo Acoplamento
-
-O Step Functions é responsável pela orquestração.
-
-As Lambdas permanecem independentes.
-
----
-
-💡 O Que Eu Faria Diferente Hoje
-
-Se este projeto fosse evoluído para um ambiente de produção, algumas melhorias seriam adicionadas:
-
-- DynamoDB para persistência;
-- Dead Letter Queue (DLQ);
-- EventBridge;
-- X-Ray;
-- Infraestrutura como Código com Terraform;
-- Testes automatizados;
-- GitHub Actions;
-- ECS Fargate para workloads mais complexos.
-
----
-
-🎓 Principais Aprendizados
-
-Este laboratório mostrou que conhecer serviços da AWS é importante, mas entender arquitetura é ainda mais importante.
-
-O AWS Step Functions não substitui uma boa arquitetura.
-
-Ele apenas facilita a coordenação dos componentes.
-
-Também ficou evidente que:
-
-- Sistemas distribuídos falham;
-- Observabilidade é parte da arquitetura;
-- Simplicidade é uma vantagem;
-- Serviços gerenciados reduzem carga operacional;
-- O foco deve estar na solução do problema e não na ferramenta.
-
----
-
-📈 Resultado
-
-Ao final do projeto foi possível:
-
-✔ Compreender máquinas de estados;
-
-✔ Integrar AWS Lambda;
-
-✔ Trabalhar com SNS e SQS;
-
-✔ Implementar tratamento de falhas;
-
-✔ Aplicar princípios de Event-Driven Architecture;
-
-✔ Construir workflows automatizados;
-
-✔ Consolidar conhecimentos sobre computação serverless;
-
-✔ Criar uma base sólida para estudos futuros em arquiteturas distribuídas.
-
----
-
-📚 Referências
-
-Documentação Oficial AWS
-
-https://docs.aws.amazon.com/step-functions/
-
-https://docs.aws.amazon.com/lambda/
-
-https://docs.aws.amazon.com/AWSSimpleQueueService/
-
-https://docs.aws.amazon.com/sns/
-
-https://docs.aws.amazon.com/dynamodb/
-
-https://docs.aws.amazon.com/cloudwatch/
-
----
-
-AWS Skill Builder
-
-https://skillbuilder.aws/
-
----
-
-AWS Architecture Center
-
-https://aws.amazon.com/architecture/
-
----
-
-Serverless Land
-
-https://serverlessland.com/
-
----
-
-🤝 Contribuições
-
-Contribuições são bem-vindas.
-
-Caso encontre melhorias ou queira compartilhar sugestões:
-
-1. Faça um fork do projeto;
-2. Crie uma branch:
-
-git checkout -b feature/minha-feature
-
-3. Faça suas alterações;
-
-4. Commit:
-
-git commit -m "feat: adiciona nova funcionalidade"
-
-5. Push:
-
-git push origin feature/minha-feature
-
-6. Abra um Pull Request.
-
----
-
-📜 Licença
-
-Este projeto está licenciado sob a licença MIT.
-
-Consulte o arquivo:
-
-LICENSE
-
----
-
-👨‍💻 Sobre o Autor
-
-Sérgio Luiz dos Santos
-
-Profissional com experiência em Tecnologia da Informação, desenvolvimento de sistemas e arquitetura de soluções.
-
-Interesses:
-
-- Cloud Computing
-- Inteligência Artificial
-- Engenharia de Software
-- Arquiteturas Distribuídas
-- Cibersegurança
-- Dados e Automação
-
----
-
-🙏 Agradecimentos
-
-Este projeto foi desenvolvido durante a formação AWS Cloud Foundations.
-
-Agradecimentos especiais:
-
-- AWS
-- DIO (Digital Innovation One)
-- Comunidade de tecnologia
-
-
-Pelos ensinamentos sobre documentação, resolução de problemas e comunicação técnica.
-
----
-
-⭐ Considerações Finais
-
-Durante muito tempo, pensei que aprender cloud significava decorar serviços.
-
-Mas este laboratório mostrou algo mais importante.
-
-Empresas não contratam pessoas porque elas sabem o nome de um serviço da AWS.
-
-Empresas contratam profissionais capazes de resolver problemas.
-
-O AWS Step Functions é apenas uma ferramenta.
-
-Lambda, SNS, SQS, ECS e EKS também são ferramentas.
-
-O verdadeiro valor está em compreender como utilizar essas ferramentas para construir sistemas mais simples, resilientes, observáveis e escaláveis.
-
-Mais importante do que saber usar um serviço, é saber por que utilizá-lo.
-
-Porque no fim, o mercado não contrata ferramentas.
-
-O mercado contrata pessoas capazes de resolver problemas utilizando ferramentas.
-
----
-
-⭐ Se este projeto foi útil para você, considere deixar uma estrela no repositório.
-
-Bons estudos e Happy Building! 🚀☁️Esse README completo segue simultaneamente:
-
-
-
-✅ Storytelling técnico;
-
-✅ AWS Well-Architected Framework;
-
-✅ Estrutura próxima de projetos open source de alto nível;
-
-✅ Foco em posicionamento como resolvedor de problemas e não apenas usuário de ferramentas.
-
-
-
-
-
-
----
----
-
-# file-validation-workflow
-
-
-## Fluxo
-
-```
-Arquivo Recebido
-        |
-        ▼
-Validate File Lambda
-        |
-        ▼
-Arquivo válido?
-   /            \
- Sim            Não
-  |               |
-  ▼               ▼
-Success         Fail 
-
-```
-
----
-
-## Exemplo de entrada
-
-``` 
-
-{
-  "filename": "clientes.csv"
-}  
-
-
-```
----
-
-
-
-## Exemplo de saída
-
-```
-
-{
-  "filename": "clientes.csv",
-  "validationResult": {
-    "valid": true
-  }
-} 
-
-
-
-```
-
----
-
- 
-# lambda-execution-workflow
-
-
-
-## Fluxo
-
-```
-Validate File
-      |
-      ▼
-Process Data
-      |
-      ▼
-Notify Execution
-      |
-      ▼
-Success
-
-```
-
-
----
-
-
-## Fluxo de exceção
-
-```
-
-Validate File
-      |
-      ▼
-Erro?
-      |
-     Sim
-      ▼
-Handle Error
-      |
-      ▼
-Fail
-
-
-```
-
----
-
-
-## Exemplo de entrada
-
-
-```
-{
-  "filename": "clientes.csv"
-}
-
-```
-
----
-
-## Exemplo de saída
-
-
-```
-
-{
-  "validation": {
-    "valid": true
-  },
-  "processResult": {
-    "status": "processed"
-  },
-  "notification": {
-    "status": "notification_sent"
-  }
-}
-
-
-```
-
-
----
-
-
-# sns-notification-workflow
-
-
-## Arquitetura
-
-```
-
-Process Data
-      |
-      ▼
-Publish SNS Event
-      |
-      ▼
-SNS Topic
-      |
-      ▼
-Subscribers
-(Lambda, Email, SQS, etc.)
-
-
-```
-
----
-
-
- # Exemplo de entrada
-
- ```
-
-{
-  "event": "file_processed",
-  "filename": "clientes.csv",
-  "status": "success"
-}
-
-
-```
-
----
-
-
-
-# Exemplo de mensagem enviada ao SNS
-
-```
-
-{
-  "event": "file_processed",
-  "filename": "clientes.csv",
-  "status": "success"
-}
-
-```
-
----
-
-
-
-
-# Fluxo
-
-
-```
-
-Process Data
-      |
-      ▼
-Publish Notification
-      |
-      ▼
-SNS Topic
-      |
-      ▼
-Success
-
-
-```
-
----
-
-
-# sqs-processing-workflow
-
-```
-
-Step Functions
-       |
-       ▼
-Send Message
-       |
-       ▼
-Amazon SQS
-       |
-       ▼
-Consumer Service
-
-```
-
----
-
-
-
-# Exemplo de entrada
-
-```
-
-{
-  "filename": "clientes.csv",
-  "event": "file_processed",
-  "status": "success"
-}
-
-
-
-```
-
----
-
-
-
-# Exemplo de mensagem enviada para SQS
-
-```
-
-{
-  "filename": "clientes.csv",
-  "event": "file_processed",
-  "status": "success"
-}
-
-
-
-```
----
-
-# Fluxo
-
-
-```
-
-
-Step Functions
-      |
-      ▼
-Send Message
-      |
-      ▼
-Amazon SQS
-      |
-      ▼
-Success
-
-
-```
-
----
-
-
-Padrões Arquiteturais Aplicados
-Publish/Subscribe Pattern
-SNS distribui eventos para múltiplos consumidores.
-
-
-```
-
-Publisher
-    |
-    ▼
-   SNS
- ┌──┼──┐
- ▼  ▼  ▼
-A  B  C
-
-
-```
-
----
-
-
-Queue-Based Load Leveling
-SQS absorve picos de carga.
-
-```
-
-Producer
-    |
-    ▼
-   SQS
-    |
-    ▼
-Consumer 
-
-```
-
----
-
-
-
-Retry Pattern
-Recuperação automática de falhas transitórias.
-Fail Fast
-Encerramento controlado em caso de erro. 
-
-
-
----
-
-# complete-serverless-workflow
-
-```
-                Amazon S3
-                     |
-                     ▼
-           AWS Step Functions
-                     |
-                     ▼
-              Validate File
-                     |
-                     ▼
-              Process Data
-                     |
-                     ▼
-               Amazon SNS
-                     |
-                     ▼
-               Amazon SQS
-                     |
-                     ▼
-              Amazon DynamoDB
-                     |
-                     ▼
-               CloudWatch Logs
-
-```
-
----
-
-# Fluxo Completo da State Machine
-
-```
-
-Início
-   |
-   ▼
-Validate File
-   |
-Arquivo válido?
-   |
-  Sim
-   ▼
-Process Data
-   |
-   ▼
-Publish Notification (SNS)
-   |
-   ▼
-Send Message (SQS)
-   |
-   ▼
-Persist Metadata (DynamoDB)
-   |
-   ▼
-Success
-
-
-```
-
----
-
-
-# Fluxo de exceção
-
-```
-Qualquer estado
-       |
-       ▼
-WorkflowFailed
-       |
-       ▼
-Fail
-
-
-```
-
----
-
-
-# Exemplo de entrada
-
-```
-
-{
-  "filename": "clientes.csv"
-}
-
-
-
-```
-
----
-
-
-# Saída esperada
-
-```
-{
-  "filename": "clientes.csv",
-  "validation": {
-    "valid": true
-  },
-  "processing": {
-    "status": "processed"
-  }
-}
-
-
-```
-
----
-
-
-# Padrões Arquiteturais Aplicados
-
-✅ Serverless Architecture
-Lambda
-SNS
-SQS
-DynamoDB
-
----
-
-Step Functions
-✅ Event-Driven Architecture
-Eventos desacoplados através de SNS e SQS.
-
----
-
-
-✅ State Machine Pattern
-Orquestração explícita do fluxo.
-
----
-
-✅ Retry Pattern
-Recuperação automática de falhas transitórias.
-
----
-
-✅ Fail Fast
-Interrupção imediata em caso de falha.
-
----
-
-✅ Publish/Subscribe Pattern
-SNS distribui eventos.
-
----
-
-✅ Queue-Based Load Leveling
-SQS absorve picos de processamento.
-
----
-
-✅ Idempotency Pattern
-Permite reprocessamentos seguros. 
-
-
----
-
-
-
-# Estrutura da pasta
-
-```
-
-glambda/
-│
-└── validate_file/
-    │
-    ├── lambda_function.py
-    └── requirements.txt
-
-
-```
-
-
----
-
-
-
-# Exemplo de entrada
-
-```
-
-{
-  "filename": "clientes.csv"
-}
-
-
-```
-
----
-
-
-# Saída de sucesso
-
-```
-
-{
-  "valid": true,
-  "filename": "clientes.csv",
-  "message": "Arquivo válido."
-}
-
-
-```
-
----
-
-
-
-
-# Saída para extensão inválida
-
-```
-
-{
-  "valid": false,
-  "message": "Extensão de arquivo não suportada."
-}
-
-
-```
-
---- 
-
-
-# Logs gerados no CloudWatch
-
-```
-
-
-START RequestId: xxxxx
-
-INFO Iniciando validação do arquivo
-INFO Arquivo recebido: clientes.csv
-INFO Arquivo validado com sucesso
-
-END RequestId: xxxxx
-REPORT RequestId: xxxxx
-
-```
-
----
-
-
-
-# Fluxo da Lambda
-
-
-```
-AWS Step Functions
-         |
-         ▼
-Process Data Lambda
-         |
-         ▼
-Simula processamento
-         |
-         ▼
-Retorna resultado
-
-```
-
----
-
-
-# Exemplo de entrada
-
-```
-
-
-{
-  "filename": "clientes.csv"
-}
-
-
-```
-
----
-
-
-# Saída esperada
-
-```
-
-
-{
-  "status": "processed",
-  "filename": "clientes.csv",
-  "records_processed": 1000,
-  "processed_at": "2026-06-22T15:30:10.123456"
-}
-
-
-```
-
----
-
-
-
-# Logs gerados no CloudWatch
-
-
-```
-
-START RequestId: xxxxx
-
-INFO Iniciando processamento do arquivo
-INFO Processando arquivo: clientes.csv
-INFO 1000 registros processados com sucesso
-
-END RequestId: xxxxx
-REPORT RequestId: xxxxx
-
-
-
-```
-
----
-
-
-# Boas práticas implementadas
-
-# Logging estruturado
-
-```
-
-
-
-logger.info("Processando arquivo")
-
-```
-
----
-
-
-# Tratamento de exceções
-
-```
-
-try:
-    ...
-except Exception as error:
-    ...
-
-
-
-```
-
----
-
-# Responsabilidade única
-
-A Lambda é responsável apenas pelo processamento.
-A orquestração permanece no AWS Step Functions.
-
-
-
-# Desacoplamento
-
-A função pode ser reutilizada por:
-Step Functions;
-EventBridge;
-SQS;
-SNS;
-API Gateway.
-
-
----
-
-# lambda notify_execution
-
-
-Variáveis de ambiente
-Esta Lambda utiliza:
-
-```
-TOPIC_ARN
-
-```
-
-
-
-Exemplo
-
-```
-
-arn:aws:sns:us-east-1:123456789012:file-processing-topic
-
-```
-
----
-
-# Fluxo
-
-```
-
-Step Functions
-      |
-      ▼
-Notify Execution Lambda
-      |
-      ▼
-Amazon SNS Topic
-      |
-      ▼
-Subscribers
-(E-mail, Lambda, SQS, etc.)
-
-
-```
-
-
----
-
-
-# Exemplo de entrada
-
-```
-
-
-
-{
-  "filename": "clientes.csv",
-  "status": "processed"
-}
-
-
-```
-
----
-
-# Mensagem publicada no SNS
-
-```
-
-{
-  "event": "file_processed",
-  "filename": "clientes.csv",
-  "status": "processed"
-}
-
-
-```
-
-
----
-
-
-# Saída da Lambda
-
-```
-
-{
-  "status": "notification_sent",
-  "message_id": "7caa6b5f-9ef5-5c0c-a8ec-4d61eb31cf17",
-  "filename": "clientes.csv"
-}
-
-
-```
-
----
-
-# Logs gerados no CloudWatch
-
-```
-
-START RequestId: xxxx
-
-INFO Iniciando envio de notificação.
-INFO Publicando evento no SNS para arquivo clientes.csv
-INFO Mensagem publicada com sucesso. MessageId: 7caa6b5f...
-
-END RequestId: xxxx
-REPORT RequestId: xxxx
-
-
-```
-
----
-
-
-
-# Boas práticas implementadas
-
-## Logging estruturado
-
-```
-
-logger.info("Iniciando envio de notificação")
-
-```
-
----
-
-# Uso de variável de ambiente
-
-```
-
-TOPIC_ARN = os.getenv("TOPIC_ARN")
-
-```
-
----
-
-
-Evita hardcoding.
-
-
-# Tratamento de exceções
-
-```
-
-try:
-    ...
-except Exception as error:
-    ...
-
-
-```
-
----
-
-
-
-# Responsabilidade única
-
-Esta Lambda faz apenas:
-Construção da mensagem;
-Publicação no SNS;
-Retorno do resultado.
-
-
-
-# Integração desacoplada
-
-Os consumidores do SNS podem ser:
-Amazon SQS;
-Outra Lambda;
-Email;
-EventBridge;
-HTTP Endpoint.
-
-
----
-
-# Estrutura atual da pasta lambda
-
-```
-lambda/
-│
-├── validate_file/
-│     ├── lambda_function.py
-│     └── requirements.txt
-│
-├── process_data/
-│     ├── lambda_function.py
-│     └── requirements.txt
-│
-└── notify_execution/
-      ├── lambda_function.py
-      └── requirements.txt
-
-
-```
-
-
-Com essas três funções, o projeto já possui uma arquitetura serverless completa baseada em:
-
-```
-
-
-Step Functions
-      ↓
-Validate File
-      ↓
-Process Data
-      ↓
-Notify Execution
-      ↓
-Amazon SNS
-      ↓
-Amazon SQS
-      ↓
-Consumers
-
-
-```
-
-
-em um padrão bastante próximo de aplicações distribuídas modernas utilizadas em ambientes corporativos.
-
----
-
-examples/input.json
-Este arquivo representa a entrada inicial do workflow do AWS Step Functions.
-
-
-Descrição
-Campo
-Tipo
-Descrição
-filename
-string
-Nome do arquivo que será processado 
-
-
-
----
-
-
-
-# examples/output.json
-
-## Fluxo correspondente
-
-```
-Input
-   |
-   ▼
-Validate File
-   |
-   ▼
-Process Data
-   |
-   ▼
-Notify Execution
-   |
-   ▼
-Output
-
-
-```
-
----
-
-
-# examples/success-response.json
-
-Representa uma resposta simplificada de sucesso do workflow.
-
-
-# Cenário
-
-```
-
-
-Arquivo recebido
-       |
-       ▼
-Arquivo válido
-       |
-       ▼
-Processamento concluído
-       |
-       ▼
-Notificação enviada
-       |
-       ▼
-SUCCESS
-
-
-```
-
----
-
-
-
-# examples/error-response.json
-
-
-Representa um cenário de falha durante a validação.
-
-## Cenário correspondente
-
-```
-
-Input
-   |
-   ▼
-Validate File
-   |
-Arquivo válido?
-   |
-  Não
-   |
-   ▼
-Fail State
-
-
-```
-
----
-
-
-# Estrutura da pasta examples
-
-```
-
-examples/
-│
-├── input.json
-├── output.json
-├── success-response.json
-└── error-response.json
-
-
-```
-
----
-
-# Exemplos de execução
-
-## Entrada
-
-
-```
-
-{
-  "filename": "clientes.csv"
-}
-
-```
-
-
-## Saída
-
-
-```
-
-{
-  "status": "success",
-  "records_processed": 1000
-}
-
-
-```
-
-# Entrada inválida
-
-```
-{
-  "filename": "clientes.exe"
-}
-
-
-
-```
-
-# Saída
-
-
-```
-
-{
-  "status": "failed",
-  "error": "InvalidFile"
-}
-
-
-```
-
-
-
-
-
-# Benefícios desta pasta
-
-## Documentação
-Facilita a compreensão do projeto.
-
-## Testes
-Permite simular execuções.
-
-## Reprodutibilidade
-Qualquer pessoa consegue entender rapidamente o fluxo.
-
-## Portfólio
-Aumenta a legibilidade do repositório
-
-## Engenharia
-Aproxima a estrutura do padrão utilizado em documentações corporativas e projetos open source.
-
-
----
-
-
-
-# .gitignore
-
-
-Este .gitignore está preparado para futuras evoluções do projeto envolvendo:
-
-
-AWS Lambda
-AWS Step Functions
-Terraform
-AWS CDK
-Docker
-GitHub Actions
-Testes automatizados
-Python 3.13+
-Serverless Framework
-e segue um padrão semelhante ao utilizado em projetos profissionais e open source. 
-
-
-
----
-
-
-## 👤 14. Autor
-
-**Sérgio Santos** — Senior Data Engineer & Cloud Architect
-
-15+ anos em sistemas bancários de missão crítica (Banco Bradesco S.A.)
+> *Orquestrando sistemas distribuídos com AWS Step Functions, Lambda, SNS e SQS — aplicando resiliência, observabilidade e Event-Driven Architecture em arquiteturas serverless de nível corporativo.*
 
 [![Portfólio](https://img.shields.io/badge/Portfólio-Sérgio_Santos-111827?style=for-the-badge&logo=githubpages&logoColor=00eaff)](https://portfoliosantossergio.vercel.app)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Sérgio_Santos-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/santossergioluiz)
 
+---
 
+## 1. Problema de Negócio
 
+Aplicações modernas são compostas por múltiplos serviços distribuídos que precisam trabalhar em conjunto — validar arquivos, processar dados, publicar eventos, notificar consumidores e registrar resultados. Quando essa coordenação é implementada diretamente no código da aplicação, surgem efeitos colaterais críticos: alto acoplamento entre componentes, tratamento de falhas manual e disperso, baixa observabilidade sobre o que acontece entre os serviços, e escalabilidade comprometida.
 
+O desafio central deste projeto é: **como orquestrar um pipeline de processamento de arquivos de forma resiliente, observável e desacoplada, sem aumentar a complexidade do código de negócio?**
+
+---
+
+## 2. Contexto
+
+Em ambientes financeiros e corporativos, pipelines de ingestão e processamento de arquivos são infraestrutura crítica. Uma falha em qualquer etapa — validação, processamento ou notificação — pode gerar inconsistências nos dados, reprocessamentos manuais e perda de rastreabilidade.
+
+A operação envolve variáveis que impactam diretamente a confiabilidade do sistema:
+
+- Natureza assíncrona dos serviços distribuídos
+- Necessidade de retry automático em falhas transitórias
+- Múltiplos consumidores com velocidades de processamento distintas
+- Obrigatoriedade de auditoria e rastreamento de todas as execuções
+
+O AWS Step Functions, combinado com Lambda, SNS, SQS e DynamoDB, forma a base dessa arquitetura — permitindo que cada serviço mantenha responsabilidade única enquanto o fluxo é coordenado por uma State Machine visual e auditável.
+
+---
+
+## 3. Premissas da Análise
+
+Para o desenvolvimento foram adotadas as seguintes premissas:
+
+- O arquivo recebido (`filename`) é o gatilho inicial do workflow
+- Extensões válidas para processamento: `.csv`, `.json`, `.txt`
+- Falhas são eventos esperados em sistemas distribuídos e devem ser tratadas por padrão, não como exceção
+- Observabilidade (logs, métricas, traces) faz parte da arquitetura desde o início — não é adicionada posteriormente
+- O período de estudo representa a Fase 1 do roadmap; integrações com ECS, EKS e EventBridge estão previstas para fases subsequentes
+- Credenciais AWS nunca são hardcoded — variáveis de ambiente são o padrão adotado (`TOPIC_ARN`)
+
+---
+
+## 4. Estratégia da Solução
+
+A estratégia seguiu uma abordagem estruturada em seis etapas:
+
+**Etapa 1 — Modelagem do problema de negócio**
+Identificar quais etapas do pipeline precisam ser coordenadas, onde ocorrem falhas e qual o impacto de cada ponto de falha.
+
+**Etapa 2 — Construção da State Machine**
+Modelar o fluxo completo no AWS Step Functions, definindo estados (Task, Choice, Succeed, Fail), transições e regras de Retry/Catch via Amazon States Language (ASL/JSON).
+
+**Etapa 3 — Implementação das funções Lambda**
+Três funções com responsabilidade única, escritas em Python 3.13 com boto3:
+- `validate_file` — verifica extensão e integridade
+- `process_data` — executa o processamento e registra timestamp e volume
+- `notify_execution` — publica evento no SNS via variável de ambiente `TOPIC_ARN`
+
+**Etapa 4 — Integração com mensageria assíncrona**
+SNS para distribuição de eventos (Pub/Sub) e SQS para absorção de picos de carga e desacoplamento entre produtores e consumidores.
+
+**Etapa 5 — Tratamento de falhas por design**
+Retry com backoff exponencial, Catch para desvio controlado ao estado de falha, e Fail State para encerramento auditável.
+
+**Etapa 6 — Observabilidade**
+CloudWatch Logs integrado nativamente nas Lambdas com logging estruturado, métricas de execução do Step Functions e CloudTrail para auditoria de chamadas de API.
+
+---
+
+## 5. Arquitetura da Solução
+
+```
+Amazon S3 (trigger)
+        │
+        ▼
+AWS Step Functions — State Machine
+        │
+        ├─► validate_file (Lambda)
+        │         │
+        │    válido? ──► Fail State (extensão inválida)
+        │         │
+        ├─► process_data (Lambda)
+        │         │
+        ├─► notify_execution (Lambda)
+        │         │
+        ├─► Amazon SNS ──► Subscribers (SQS, Lambda, Email)
+        │         │
+        ├─► Amazon SQS ──► Consumer Services
+        │         │
+        ├─► Amazon DynamoDB (persistência de metadados)
+        │
+        └─► Amazon CloudWatch (logs, métricas, alarmes)
+```
+
+**Workflows implementados:**
+
+| Arquivo | Responsabilidade |
+|---|---|
+| `file-validation-workflow.json` | Validação isolada com Choice State |
+| `lambda-execution-workflow.json` | Orquestração sequencial com tratamento de erros |
+| `sns-notification-workflow.json` | Publicação de eventos via integração nativa SNS |
+| `sqs-processing-workflow.json` | Envio assíncrono para fila SQS |
+| `complete-serverless-workflow.json` | Pipeline completo: Validate → Process → SNS → SQS → DynamoDB |
+
+---
+
+## 6. Decisões Técnicas e Trade-offs
+
+**AWS Step Functions como orquestrador central**
+Alternativa considerada: implementar toda a lógica de coordenação em uma única Lambda "master" que chamaria as demais em sequência. Racional: o Step Functions externaliza o fluxo para uma State Machine auditável, com retry nativo, histórico de execução no console e observabilidade sem código adicional. Trade-off aceito: custo por transição de estado em Standard Workflows — justificado pelo ganho em rastreabilidade e pela redução de código de orquestração nas Lambdas.
+
+**Três Lambdas com responsabilidade única em vez de uma Lambda monolítica**
+Alternativa considerada: consolidar validate + process + notify em uma única função para reduzir latência entre invocações. Racional: responsabilidade única permite testar, versionar e escalar cada função de forma independente, além de facilitar reutilização por outros workflows (EventBridge, API Gateway). Trade-off aceito: latência adicional de ~10-50ms por invocação — irrelevante para o cenário de processamento assíncrono de arquivos.
+
+**SNS → SQS (Fanout Pattern) em vez de integração direta Lambda → consumidores**
+Alternativa considerada: a Lambda `notify_execution` chamar diretamente cada consumidor. Racional: o fanout via SNS→SQS desacopla produtores de consumidores, permite múltiplos subscribers independentes e garante que uma falha em um consumidor não afete os demais. Trade-off aceito: eventual consistency — as mensagens não são processadas de forma estritamente síncrona, o que é aceitável para notificações de eventos de arquivo.
+
+**Standard Workflow em vez de Express Workflow**
+Alternativa considerada: Express Workflow para menor custo por execução. Racional: Standard Workflow mantém histórico completo de execução no console por 90 dias, essencial para auditoria e diagnóstico em ambientes corporativos. Trade-off aceito: custo ligeiramente superior — justificado pelo ganho em rastreabilidade.
+
+---
+
+## 7. Tecnologias Utilizadas
+
+**Serviços AWS**
+- AWS Step Functions (orquestração, State Machine, ASL)
+- AWS Lambda + Python 3.13 + boto3 (execução serverless)
+- Amazon SNS (Pub/Sub, distribuição de eventos)
+- Amazon SQS (fila assíncrona, absorção de picos)
+- Amazon DynamoDB (persistência de metadados)
+- Amazon CloudWatch (logs, métricas, alarmes)
+- AWS CloudTrail (auditoria de API)
+- AWS X-Ray (distributed tracing — roadmap Fase 2)
+
+**Conceitos e Padrões**
+- Event-Driven Architecture
+- State Machine Pattern
+- Publish/Subscribe Pattern
+- Queue-Based Load Leveling
+- Retry + Backoff Exponencial
+- Fail Fast
+- Idempotency Pattern
+- Serverless Computing
+- AWS Well-Architected Framework (6 pilares)
+
+---
+
+## 8. Como Executar o Projeto
+
+**Pré-requisitos**
+- Conta AWS ativa com permissões para Step Functions, Lambda, SNS, SQS e DynamoDB
+- AWS CLI configurado (`aws configure`)
+- Python 3.13+
+- Git
+
+**Clonar o repositório**
+```bash
+git clone https://github.com/Santosdevbjj/workflows-com-AWS-Step-Functions.git
+cd workflows-com-AWS-Step-Functions
+```
+
+**Criar ambiente virtual**
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Linux/Mac
+.venv\Scripts\activate           # Windows
+```
+
+**Instalar dependências**
+```bash
+cd lambda/validate_file && pip install -r requirements.txt
+cd ../process_data && pip install -r requirements.txt
+cd ../notify_execution && pip install -r requirements.txt
+```
+
+**Configurar variável de ambiente (notify_execution)**
+```bash
+export TOPIC_ARN="arn:aws:sns:us-east-1:123456789012:file-processing-topic"
+```
+
+**Testar localmente com exemplo de entrada**
+```bash
+# Entrada válida
+cat examples/input.json
+# { "filename": "clientes.csv" }
+
+# Saída esperada (workflow completo)
+cat examples/output.json
+```
+
+**Deploy no AWS**
+1. Criar as três funções Lambda e fazer upload dos arquivos em `lambda/`
+2. Configurar variável de ambiente `TOPIC_ARN` na Lambda `notify_execution`
+3. Criar a State Machine no Step Functions com o conteúdo de `workflows/complete-serverless-workflow.json`
+4. Executar com o input: `{ "filename": "clientes.csv" }`
+
+---
+
+## 9. Exemplos de Execução
+
+**Entrada**
+```json
+{ "filename": "clientes.csv" }
+```
+
+**Saída — sucesso**
+```json
+{
+  "filename": "clientes.csv",
+  "validation": { "valid": true, "message": "Arquivo válido." },
+  "processing": { "status": "processed", "records_processed": 1000, "processed_at": "2026-06-22T15:30:10.123456" },
+  "notification": { "status": "notification_sent", "message_id": "7caa6b5f-..." }
+}
+```
+
+**Saída — arquivo inválido**
+```json
+{ "status": "failed", "error": "InvalidFile", "message": "Extensão de arquivo não suportada.", "filename": "clientes.exe" }
+```
+
+---
+
+## 10. Insights da Análise
+
+**O Step Functions não substitui arquitetura — ele a torna visível.**
+A lógica de negócio permanece nas Lambdas. O que o Step Functions faz é tornar explícito o fluxo, os pontos de falha e as transições — o que em código procedural ficaria oculto em try/catch aninhados e chamadas diretas entre serviços.
+
+**Falhas são o estado normal em sistemas distribuídos.**
+O Retry com backoff exponencial (`IntervalSeconds: 2`, `BackoffRate: 2`, `MaxAttempts: 3`) trata falhas transitórias automaticamente. O Catch desvia para um estado de falha controlado. O Fail State encerra com `Error` e `Cause` auditáveis. Esses três mecanismos juntos eliminam a necessidade de código de resiliência nas próprias Lambdas.
+
+**Serverless não significa ausência de responsabilidades arquiteturais.**
+Segurança (IAM roles com menor privilégio, TOPIC_ARN via variável de ambiente, sem hardcoding de credenciais), custos (Standard vs Express Workflow), observabilidade e escalabilidade continuam sendo decisões do arquiteto — o provedor gerencia a infraestrutura, não as decisões.
+
+**O padrão SNS → SQS (Fanout) é o padrão correto para múltiplos consumidores.**
+Chamar consumidores diretamente da Lambda cria acoplamento temporal: se um consumidor está indisponível, a Lambda falha. Com SNS → SQS, cada consumidor tem sua própria fila, processa no seu ritmo e uma falha em um não afeta os demais.
+
+---
+
+## 11. Resultados Obtidos
+
+Ao final do projeto foi possível:
+
+- Construir um pipeline serverless completo com 5 workflows distintos e um workflow consolidado cobrindo todo o fluxo
+- Implementar tratamento de falhas por design em todos os estados críticos (Retry + Catch + Fail State)
+- Separar orquestração (Step Functions) de lógica de negócio (Lambda) — reduzindo o código de cada Lambda a uma única responsabilidade
+- Aplicar os 6 pilares do AWS Well-Architected Framework de forma rastreável
+- Criar documentação técnica cobrindo arquitetura, integração de cada serviço, boas práticas, lições aprendidas e roadmap de evolução
+- Estabelecer uma base replicável para pipelines de dados, ETL e workflows empresariais em ambientes AWS
+
+---
+
+## 12. Próximos Passos
+
+**Fase 2 — Observabilidade avançada**
+- [ ] AWS X-Ray para distributed tracing e service map
+- [ ] Dashboards CloudWatch com métricas de `ExecutionsFailed`, `ExecutionTime` e throughput de SQS
+- [ ] Dead Letter Queue (DLQ) para mensagens com falha persistente
+
+**Fase 3 — Infraestrutura como Código**
+- [ ] AWS CDK para deploy reprodutível de toda a stack
+- [ ] Terraform como alternativa multi-cloud
+- [ ] GitHub Actions para CI/CD com testes automatizados e deploy contínuo
+
+**Fase 4 — Padrões avançados de Step Functions**
+- [ ] Parallel State para execuções simultâneas
+- [ ] Map State e Distributed Map para processamento em lote de múltiplos arquivos
+- [ ] Saga Pattern para transações distribuídas com compensação
+- [ ] Callback Pattern para aprovações humanas no fluxo
+
+**Fase 5 — Containers e microsserviços**
+- [ ] Amazon ECS Fargate para workloads que excedem os limites do Lambda
+- [ ] Amazon EKS para microsserviços complexos baseados em Kubernetes
+- [ ] Amazon EventBridge como barramento de eventos entre domínios
+
+---
+
+## 13. Estrutura do Repositório
+
+```
+workflows-com-AWS-Step-Functions/
+│
+├── docs/
+│   ├── architecture.md              # Arquitetura detalhada da solução
+│   ├── step-functions-concepts.md   # Conceitos: State Machine, ASL, tipos de estado
+│   ├── lambda-integration.md        # Integração Step Functions ↔ Lambda
+│   ├── validation-workflow.md       # Workflow de validação com Choice State
+│   ├── sns-sqs-integration.md       # Fanout Pattern: SNS → SQS
+│   ├── ecs-eks-integration.md       # Containers como alternativa ao Lambda
+│   ├── monitoring-and-observability.md  # CloudWatch, X-Ray, CloudTrail
+│   ├── best-practices.md            # Boas práticas e checklist de produção
+│   └── lessons-learned.md           # Lições aprendidas e insights
+│
+├── workflows/
+│   ├── file-validation-workflow.json
+│   ├── lambda-execution-workflow.json
+│   ├── sns-notification-workflow.json
+│   ├── sqs-processing-workflow.json
+│   └── complete-serverless-workflow.json
+│
+├── lambda/
+│   ├── validate_file/
+│   │   ├── lambda_function.py
+│   │   └── requirements.txt
+│   ├── process_data/
+│   │   ├── lambda_function.py
+│   │   └── requirements.txt
+│   └── notify_execution/
+│       ├── lambda_function.py
+│       └── requirements.txt
+│
+├── examples/
+│   ├── input.json
+│   ├── output.json
+│   ├── success-response.json
+│   └── error-response.json
+│
+├── notes/
+│   ├── lab-notes.md
+│   ├── insights.md
+│   └── study-plan.md
+│
+├── references/
+│   ├── aws-documentation.md
+│   └── useful-links.md
+│
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+---
+
+## 14. AWS Well-Architected Framework — Aplicação no Projeto
+
+| Pilar | O que foi aplicado |
+|---|---|
+| **Excelência Operacional** | Logging estruturado em todas as Lambdas, histórico completo de execução no Step Functions, automação de retry |
+| **Segurança** | IAM roles com menor privilégio, TOPIC_ARN via variável de ambiente, sem credenciais hardcoded, .gitignore cobrindo `.aws/`, `*.pem`, `secrets/` |
+| **Confiabilidade** | Retry + Catch + Fail State em todos os estados críticos, SQS como buffer de mensagens, DLQ prevista no roadmap |
+| **Eficiência de Performance** | Serverless (Lambda + Step Functions), escalabilidade automática, SNS → SQS para absorção de picos |
+| **Otimização de Custos** | Pay-as-you-go, sem servidores dedicados, Standard Workflow escolhido com trade-off consciente sobre Express |
+| **Sustentabilidade** | Serviços gerenciados reduzem recursos ociosos, escalabilidade sob demanda evita superprovisionamento |
+
+---
+
+## 15. Referências
+
+- [AWS Step Functions — Documentação oficial](https://docs.aws.amazon.com/step-functions/)
+- [Amazon States Language — Especificação](https://states-language.net/spec.html)
+- [AWS Lambda — Best Practices](https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html)
+- [AWS Well-Architected Framework](https://docs.aws.amazon.com/wellarchitected/)
+- [Serverless Land — Padrões e exemplos](https://serverlessland.com/)
+- [AWS Architecture Center](https://aws.amazon.com/architecture/)
+- [Boto3 — SDK Python](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+
+---
+
+## 16. Contribuições
+
+Contribuições são bem-vindas. Para contribuir:
+
+```bash
+git checkout -b feature/minha-feature
+git commit -m "feat: descrição da melhoria"
+git push origin feature/minha-feature
+```
+
+Abra um Pull Request descrevendo o problema que a contribuição resolve.
+
+---
+
+## 17. Autor
+
+**Sérgio Luiz dos Santos** — Systems Analyst | Cloud & AI Solutions Specialist
+
+15+ anos em sistemas de missão crítica (Banco Bradesco S.A.) · DIO Campus Expert
+
+[![Portfólio](https://img.shields.io/badge/Portfólio-Sérgio_Santos-111827?style=for-the-badge&logo=githubpages&logoColor=00eaff)](https://portfoliosantossergio.vercel.app)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Sérgio_Santos-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/santossergioluiz)
+[![GitHub](https://img.shields.io/badge/GitHub-Santosdevbjj-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Santosdevbjj)
+
+---
+
+> *O mercado não contrata quem conhece ferramentas. O mercado contrata quem resolve problemas utilizando ferramentas.*
+
+---
+
+📜 Licença MIT — consulte o arquivo [LICENSE](LICENSE).
+
+⭐ Se este projeto foi útil, considere deixar uma estrela no repositório.
