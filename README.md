@@ -6,7 +6,7 @@
 
 ---
 
-# file-validation-workflow.json
+# file-validation-workflow
 
 
 ## Fluxo
@@ -57,6 +57,88 @@ Success         Fail
 
 
 ```
+
+---
+
+ 
+# lambda-execution-workflow
+
+
+
+## Fluxo
+
+```
+Validate File
+      |
+      ▼
+Process Data
+      |
+      ▼
+Notify Execution
+      |
+      ▼
+Success
+
+```
+
+
+---
+
+
+## Fluxo de exceção
+
+```
+
+Validate File
+      |
+      ▼
+Erro?
+      |
+     Sim
+      ▼
+Handle Error
+      |
+      ▼
+Fail
+
+
+```
+
+---
+
+
+## Exemplo de entrada
+
+
+```
+{
+  "filename": "clientes.csv"
+}
+
+```
+
+---
+
+## Exemplo de saída
+
+
+```
+
+{
+  "validation": {
+    "valid": true
+  },
+  "processResult": {
+    "status": "processed"
+  },
+  "notification": {
+    "status": "notification_sent"
+  }
+}
+
+
+```
+
 
 ---
 
