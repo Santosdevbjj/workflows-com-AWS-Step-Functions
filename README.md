@@ -224,7 +224,7 @@ Success
 ---
 
 
-# workflows/sqs-processing-workflow
+# sqs-processing-workflow
 
 ```
 
