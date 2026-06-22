@@ -464,25 +464,48 @@ Fail
 ---
 
 
-Padrões Arquiteturais Aplicados
+# Padrões Arquiteturais Aplicados
+
 ✅ Serverless Architecture
 Lambda
 SNS
 SQS
 DynamoDB
+
+--
+
 Step Functions
 ✅ Event-Driven Architecture
 Eventos desacoplados através de SNS e SQS.
+
+---
+
+
 ✅ State Machine Pattern
 Orquestração explícita do fluxo.
+
+---
+
 ✅ Retry Pattern
 Recuperação automática de falhas transitórias.
+
+---
+
 ✅ Fail Fast
 Interrupção imediata em caso de falha.
+
+---
+
 ✅ Publish/Subscribe Pattern
 SNS distribui eventos.
+
+---
+
 ✅ Queue-Based Load Leveling
 SQS absorve picos de processamento.
+
+---
+
 ✅ Idempotency Pattern
 Permite reprocessamentos seguros. 
 
