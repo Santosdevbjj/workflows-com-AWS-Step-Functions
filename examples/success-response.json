@@ -1,0 +1,7 @@
+{
+  "status": "success",
+  "message": "Workflow executed successfully.",
+  "filename": "clientes.csv",
+  "records_processed": 1000,
+  "notification_status": "notification_sent"
+}
