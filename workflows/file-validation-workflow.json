@@ -1,0 +1,63 @@
+{
+  "Comment": "Workflow responsável por validar arquivos antes do processamento principal.",
+  "StartAt": "ValidateFile",
+  "States": {
+
+    "ValidateFile": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:validate-file",
+      "ResultPath": "$.validationResult",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "ValidationFailed"
+        }
+      ],
+      "Next": "FileIsValid"
+    },
+
+    "FileIsValid": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.validationResult.valid",
+          "BooleanEquals": true,
+          "Next": "ValidationSucceeded"
+        }
+      ],
+      "Default": "InvalidFile"
+    },
+
+    "ValidationSucceeded": {
+      "Type": "Succeed",
+      "Comment": "Arquivo validado com sucesso."
+    },
+
+    "InvalidFile": {
+      "Type": "Fail",
+      "Error": "InvalidFile",
+      "Cause": "O arquivo não atende aos critérios de validação."
+    },
+
+    "ValidationFailed": {
+      "Type": "Fail",
+      "Error": "ValidationError",
+      "Cause": "Falha durante a execução da função de validação."
+    }
+
+  }
+}
