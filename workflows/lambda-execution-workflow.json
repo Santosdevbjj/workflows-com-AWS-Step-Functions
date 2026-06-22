@@ -1,0 +1,102 @@
+{
+  "Comment": "Workflow responsável por executar funções Lambda em sequência com tratamento de falhas.",
+  "StartAt": "ValidateFile",
+  "States": {
+
+    "ValidateFile": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:validate-file",
+      "ResultPath": "$.validation",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "HandleError"
+        }
+      ],
+      "Next": "ProcessData"
+    },
+
+    "ProcessData": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:process-data",
+      "ResultPath": "$.processResult",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "HandleError"
+        }
+      ],
+      "Next": "NotifyExecution"
+    },
+
+    "NotifyExecution": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:notify-execution",
+      "ResultPath": "$.notification",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 2,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "HandleError"
+        }
+      ],
+      "Next": "ExecutionSucceeded"
+    },
+
+    "ExecutionSucceeded": {
+      "Type": "Succeed",
+      "Comment": "Workflow executado com sucesso."
+    },
+
+    "HandleError": {
+      "Type": "Pass",
+      "Result": {
+        "status": "FAILED",
+        "message": "Erro durante a execução do workflow."
+      },
+      "Next": "ExecutionFailed"
+    },
+
+    "ExecutionFailed": {
+      "Type": "Fail",
+      "Error": "WorkflowExecutionError",
+      "Cause": "Uma ou mais etapas falharam."
+    }
+
+  }
+}
