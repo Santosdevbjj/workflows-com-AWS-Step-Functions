@@ -1,0 +1,6 @@
+{
+  "status": "failed",
+  "error": "InvalidFile",
+  "message": "Extensão de arquivo não suportada.",
+  "filename": "clientes.exe"
+}
