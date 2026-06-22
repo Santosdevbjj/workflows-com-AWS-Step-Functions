@@ -472,7 +472,7 @@ SNS
 SQS
 DynamoDB
 
---
+---
 
 Step Functions
 ✅ Event-Driven Architecture
