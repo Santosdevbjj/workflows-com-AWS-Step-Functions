@@ -1,0 +1,185 @@
+{
+  "Comment": "Complete Serverless Workflow using AWS Step Functions, Lambda, SNS, SQS and DynamoDB",
+  "StartAt": "ValidateFile",
+  "States": {
+
+    "ValidateFile": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:validate-file",
+      "ResultPath": "$.validation",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "WorkflowFailed"
+        }
+      ],
+      "Next": "FileIsValid"
+    },
+
+    "FileIsValid": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.validation.valid",
+          "BooleanEquals": true,
+          "Next": "ProcessData"
+        }
+      ],
+      "Default": "InvalidFile"
+    },
+
+    "ProcessData": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:process-data",
+      "ResultPath": "$.processing",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "WorkflowFailed"
+        }
+      ],
+      "Next": "PublishNotification"
+    },
+
+    "PublishNotification": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "arn:aws:sns:us-east-1:123456789012:file-processing-topic",
+        "Message": {
+          "event": "file_processed",
+          "filename.$": "$.filename",
+          "status": "success"
+        },
+        "Subject": "File Processing Notification"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 2,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "WorkflowFailed"
+        }
+      ],
+      "Next": "SendMessageToQueue"
+    },
+
+    "SendMessageToQueue": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sqs:sendMessage",
+      "Parameters": {
+        "QueueUrl": "https://sqs.us-east-1.amazonaws.com/123456789012/file-processing-queue",
+        "MessageBody": {
+          "filename.$": "$.filename",
+          "status": "processed"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 2,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "WorkflowFailed"
+        }
+      ],
+      "Next": "PersistMetadata"
+    },
+
+    "PersistMetadata": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::dynamodb:putItem",
+      "Parameters": {
+        "TableName": "processed-files",
+        "Item": {
+          "FileName": {
+            "S.$": "$.filename"
+          },
+          "Status": {
+            "S": "processed"
+          }
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "WorkflowFailed"
+        }
+      ],
+      "Next": "ExecutionSucceeded"
+    },
+
+    "ExecutionSucceeded": {
+      "Type": "Succeed",
+      "Comment": "Workflow completed successfully."
+    },
+
+    "InvalidFile": {
+      "Type": "Fail",
+      "Error": "InvalidFile",
+      "Cause": "The file validation failed."
+    },
+
+    "WorkflowFailed": {
+      "Type": "Fail",
+      "Error": "WorkflowExecutionError",
+      "Cause": "One or more workflow states failed."
+    }
+
+  }
+}
