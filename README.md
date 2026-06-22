@@ -2229,3 +2229,15 @@ e segue um padrão semelhante ao utilizado em projetos profissionais e open sour
 ---
 
 
+## 👤 14. Autor
+
+**Sérgio Santos** — Senior Data Engineer & Cloud Architect
+
+15+ anos em sistemas bancários de missão crítica (Banco Bradesco S.A.)
+
+[![Portfólio](https://img.shields.io/badge/Portfólio-Sérgio_Santos-111827?style=for-the-badge&logo=githubpages&logoColor=00eaff)](https://portfoliosantossergio.vercel.app)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Sérgio_Santos-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/santossergioluiz)
+
+
+
+
