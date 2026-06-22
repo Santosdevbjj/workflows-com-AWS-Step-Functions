@@ -274,6 +274,420 @@ Referências;
 
 
 
+🚀 Como Executar o Projeto
+
+Pré-requisitos
+
+- Conta AWS
+- AWS CLI configurado
+- Python 3.13+
+- Git
+- Conhecimentos básicos sobre serviços AWS
+
+---
+
+Clonar o repositório
+
+git clone https://github.com/Santosdevbjj/workflows-com-AWS-Step-Functions.git
+
+cd workflows-com-AWS-Step-Functions
+
+---
+
+Criar ambiente virtual
+
+python -m venv .venv
+
+Linux/Mac:
+
+source .venv/bin/activate
+
+Windows:
+
+.venv\Scripts\activate
+
+---
+
+Instalar dependências
+
+validate_file
+
+cd lambda/validate_file
+
+pip install -r requirements.txt
+
+process_data
+
+cd ../process_data
+
+pip install -r requirements.txt
+
+notify_execution
+
+cd ../notify_execution
+
+pip install -r requirements.txt
+
+---
+
+🔄 Workflows Implementados
+
+1. Validação de Arquivos
+
+Arquivo:
+
+workflows/file-validation-workflow.json
+
+Fluxo:
+
+Input
+ ↓
+Validate File
+ ↓
+Success / Fail
+
+Objetivo:
+
+Garantir que apenas arquivos válidos avancem no pipeline.
+
+---
+
+2. Processamento de Dados
+
+Arquivo:
+
+workflows/lambda-execution-workflow.json
+
+Fluxo:
+
+Input
+ ↓
+Process Data
+ ↓
+Success
+
+Objetivo:
+
+Executar processamento desacoplado através do AWS Lambda.
+
+---
+
+3. Notificações com SNS
+
+Arquivo:
+
+workflows/sns-notification-workflow.json
+
+Fluxo:
+
+Lambda
+ ↓
+SNS Topic
+ ↓
+Subscribers
+
+Objetivo:
+
+Aplicar padrão Publish/Subscribe.
+
+---
+
+4. Processamento Assíncrono com SQS
+
+Arquivo:
+
+workflows/sqs-processing-workflow.json
+
+Fluxo:
+
+Producer
+ ↓
+SQS Queue
+ ↓
+Consumer
+
+Objetivo:
+
+Absorver picos de carga e aumentar a resiliência.
+
+---
+
+5. Workflow Serverless Completo
+
+Arquivo:
+
+workflows/complete-serverless-workflow.json
+
+Fluxo:
+
+Input
+ ↓
+Validate File
+ ↓
+Process Data
+ ↓
+Notify Execution
+ ↓
+SNS
+ ↓
+SQS
+ ↓
+Consumers
+
+---
+
+λ Funções Lambda
+
+validate_file
+
+Responsável por:
+
+- Receber o nome do arquivo;
+- Validar extensão;
+- Retornar resultado.
+
+---
+
+process_data
+
+Responsável por:
+
+- Simular processamento;
+- Produzir informações de saída;
+- Registrar logs.
+
+---
+
+notify_execution
+
+Responsável por:
+
+- Publicar mensagens no SNS;
+- Notificar consumidores;
+- Desacoplar componentes.
+
+---
+
+📊 Observabilidade
+
+A observabilidade foi tratada como parte da arquitetura.
+
+Serviços estudados:
+
+Amazon CloudWatch
+
+- Logs
+- Métricas
+- Alarmes
+
+AWS X-Ray
+
+- Distributed Tracing
+- Service Map
+
+CloudTrail
+
+- Auditoria
+- Histórico de chamadas
+
+---
+
+🧠 Principais Insights
+
+O Step Functions é um orquestrador
+
+A lógica de negócio permanece nas Lambdas.
+
+---
+
+Sistemas distribuídos falham
+
+Por isso foram estudados:
+
+- Retry Pattern
+- Catch Pattern
+- Fail State
+
+---
+
+Event-Driven Architecture reduz acoplamento
+
+SNS e SQS permitem construir sistemas mais resilientes.
+
+---
+
+Observabilidade é fundamental
+
+Logs são parte da arquitetura.
+
+Não um recurso opcional.
+
+---
+
+Simplicidade é uma vantagem
+
+Fluxos menores:
+
+- São mais legíveis;
+- São mais fáceis de manter;
+- Possuem menor risco operacional.
+
+---
+
+📈 Resultados Obtidos
+
+Este laboratório permitiu compreender na prática:
+
+Orquestração de workflows
+
+Com AWS Step Functions.
+
+Integração entre serviços
+
+- Lambda
+- SNS
+- SQS
+
+Arquiteturas orientadas a eventos
+
+Com baixo acoplamento.
+
+Resiliência
+
+Tratamento de falhas e retries.
+
+Observabilidade
+
+Logs, métricas e rastreamento.
+
+Serverless Computing
+
+Redução da complexidade operacional.
+
+Mais importante do que aprender serviços específicos, foi compreender como resolver problemas de coordenação em sistemas distribuídos.
+
+---
+
+📚 Aprendizados
+
+Durante o desenvolvimento deste projeto, alguns pontos se destacaram.
+
+Falhas são normais
+
+Sistemas distribuídos devem ser construídos considerando falhas.
+
+---
+
+Serviços gerenciados reduzem carga operacional
+
+Permitem que o foco permaneça no problema de negócio.
+
+---
+
+O Step Functions simplifica a coordenação
+
+Separando claramente:
+
+- Fluxo;
+- Regras de negócio;
+- Tratamento de erros.
+
+---
+
+Serverless não elimina arquitetura
+
+Segurança, custos e observabilidade continuam sendo responsabilidades do arquiteto.
+
+---
+
+📁 Exemplos Disponíveis
+
+Pasta:
+
+examples/
+
+Arquivos:
+
+- input.json
+- output.json
+- success-response.json
+- error-response.json
+
+Esses exemplos facilitam:
+
+- Testes;
+- Reprodutibilidade;
+- Documentação.
+
+---
+
+📖 Documentação Complementar
+
+Pasta:
+
+docs/
+
+Contém:
+
+- architecture.md
+- step-functions-concepts.md
+- lambda-integration.md
+- validation-workflow.md
+- sns-sqs-integration.md
+- ecs-eks-integration.md
+- monitoring-and-observability.md
+- best-practices.md
+- lessons-learned.md
+
+---
+
+📝 Anotações
+
+Pasta:
+
+notes/
+
+Contém:
+
+- lab-notes.md
+- insights.md
+- study-plan.md
+
+---
+
+🔗 Referências
+
+Pasta:
+
+references/
+
+Contém:
+
+- useful-links.md
+- aws-documentation.md
+
+Todo o projeto foi baseado em documentação oficial da AWS e nas recomendações do AWS Well-Architected Framework.Na terceira e última parte do README serão incluídos:
+
+Próximos passos;
+
+Roadmap do projeto;
+
+AWS Well-Architected Framework;
+
+Boas práticas implementadas;
+
+Conclusão no estilo storytelling técnico;
+
+Seção "Sobre o Autor";
+
+Contribuições;
+
+Licença;
+
+Agradecimentos;
+
+
+
 
 ---
 ---
