@@ -512,3 +512,94 @@ Permite reprocessamentos seguros.
 
 ---
 
+
+
+# Estrutura da pasta
+
+```
+
+glambda/
+│
+└── validate_file/
+    │
+    ├── lambda_function.py
+    └── requirements.txt
+
+
+```
+
+
+---
+
+
+
+# Exemplo de entrada
+
+```
+
+{
+  "filename": "clientes.csv"
+}
+
+
+```
+
+---
+
+
+# Saída de sucesso
+
+```
+
+{
+  "valid": true,
+  "filename": "clientes.csv",
+  "message": "Arquivo válido."
+}
+
+
+```
+
+---
+
+
+
+
+# Saída para extensão inválida
+
+```
+
+{
+  "valid": false,
+  "message": "Extensão de arquivo não suportada."
+}
+
+
+```
+
+--- 
+
+
+# Logs gerados no CloudWatch
+
+```
+
+
+START RequestId: xxxxx
+
+INFO Iniciando validação do arquivo
+INFO Arquivo recebido: clientes.csv
+INFO Arquivo validado com sucesso
+
+END RequestId: xxxxx
+REPORT RequestId: xxxxx
+
+```
+
+---
+
+
+
+
+
+
