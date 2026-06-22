@@ -1,0 +1,19 @@
+{
+  "filename": "clientes.csv",
+  "validation": {
+    "valid": true,
+    "filename": "clientes.csv",
+    "message": "Arquivo válido."
+  },
+  "processing": {
+    "status": "processed",
+    "filename": "clientes.csv",
+    "records_processed": 1000,
+    "processed_at": "2026-06-22T15:30:10.123456"
+  },
+  "notification": {
+    "status": "notification_sent",
+    "message_id": "7caa6b5f-9ef5-5c0c-a8ec-4d61eb31cf17",
+    "filename": "clientes.csv"
+  }
+}
