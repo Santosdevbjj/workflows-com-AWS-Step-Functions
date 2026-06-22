@@ -967,4 +967,29 @@ Nome do arquivo que será processado
 
 
 
+# examples/output.json
+
+## Fluxo correspondente
+
+```
+Input
+   |
+   ▼
+Validate File
+   |
+   ▼
+Process Data
+   |
+   ▼
+Notify Execution
+   |
+   ▼
+Output
+
+
+```
+
+---
+
+
 
