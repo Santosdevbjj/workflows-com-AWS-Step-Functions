@@ -992,4 +992,34 @@ Output
 ---
 
 
+# examples/success-response.json
+
+Representa uma resposta simplificada de sucesso do workflow.
+
+
+# Cenário
+
+```
+
+
+Arquivo recebido
+       |
+       ▼
+Arquivo válido
+       |
+       ▼
+Processamento concluído
+       |
+       ▼
+Notificação enviada
+       |
+       ▼
+SUCCESS
+
+
+```
+
+---
+
+
 
