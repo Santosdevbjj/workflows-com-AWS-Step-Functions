@@ -350,5 +350,142 @@ Encerramento controlado em caso de erro.
 
 ---
 
+# complete-serverless-workflow
 
+```
+                Amazon S3
+                     |
+                     ▼
+           AWS Step Functions
+                     |
+                     ▼
+              Validate File
+                     |
+                     ▼
+              Process Data
+                     |
+                     ▼
+               Amazon SNS
+                     |
+                     ▼
+               Amazon SQS
+                     |
+                     ▼
+              Amazon DynamoDB
+                     |
+                     ▼
+               CloudWatch Logs
+
+```
+
+---
+
+# Fluxo Completo da State Machine
+
+```
+
+Início
+   |
+   ▼
+Validate File
+   |
+Arquivo válido?
+   |
+  Sim
+   ▼
+Process Data
+   |
+   ▼
+Publish Notification (SNS)
+   |
+   ▼
+Send Message (SQS)
+   |
+   ▼
+Persist Metadata (DynamoDB)
+   |
+   ▼
+Success
+
+
+```
+
+---
+
+
+# Fluxo de exceção
+
+```
+Qualquer estado
+       |
+       ▼
+WorkflowFailed
+       |
+       ▼
+Fail
+
+
+```
+
+---
+
+
+# Exemplo de entrada
+
+```
+
+{
+  "filename": "clientes.csv"
+}
+
+
+
+```
+
+---
+
+
+# Saída esperada
+
+```
+{
+  "filename": "clientes.csv",
+  "validation": {
+    "valid": true
+  },
+  "processing": {
+    "status": "processed"
+  }
+}
+
+
+```
+
+---
+
+
+Padrões Arquiteturais Aplicados
+✅ Serverless Architecture
+Lambda
+SNS
+SQS
+DynamoDB
+Step Functions
+✅ Event-Driven Architecture
+Eventos desacoplados através de SNS e SQS.
+✅ State Machine Pattern
+Orquestração explícita do fluxo.
+✅ Retry Pattern
+Recuperação automática de falhas transitórias.
+✅ Fail Fast
+Interrupção imediata em caso de falha.
+✅ Publish/Subscribe Pattern
+SNS distribui eventos.
+✅ Queue-Based Load Leveling
+SQS absorve picos de processamento.
+✅ Idempotency Pattern
+Permite reprocessamentos seguros. 
+
+
+---
 
