@@ -6,6 +6,278 @@
 
 ---
 
+
+
+
+✅ Storytelling técnico;
+
+✅ AWS Well-Architected Framework;
+
+✅ Foco em resolver problemas, e não apenas demonstrar ferramentas.
+
+
+🚀 Explorando Workflows Automatizados com AWS Step Functions
+
+«Orquestrando aplicações distribuídas e orientadas a eventos com AWS Step Functions, Lambda, SNS e SQS, aplicando conceitos de automação, resiliência e observabilidade em arquiteturas serverless.»
+
+---
+
+📌 Visão Geral
+
+Aplicações modernas são compostas por diversos serviços distribuídos que precisam trabalhar em conjunto. Coordenar essas integrações apenas através de código pode aumentar a complexidade, dificultar o tratamento de falhas e comprometer a observabilidade.
+
+Este projeto demonstra como utilizar o AWS Step Functions para orquestrar workflows automatizados, integrando serviços como:
+
+- AWS Lambda
+- Amazon SNS
+- Amazon SQS
+- Amazon DynamoDB
+- Amazon CloudWatch
+
+A solução implementa uma arquitetura orientada a eventos (Event-Driven Architecture), permitindo a execução coordenada de tarefas com baixo acoplamento, maior escalabilidade e melhor capacidade de monitoramento.
+
+---
+
+🎯 Objetivo do Projeto
+
+Este projeto foi desenvolvido durante a formação AWS Cloud Foundations com o objetivo de:
+
+- Consolidar conhecimentos sobre AWS Step Functions;
+- Compreender a construção de máquinas de estados (State Machines);
+- Implementar integrações com serviços serverless;
+- Aplicar boas práticas do AWS Well-Architected Framework;
+- Construir um material de consulta para futuras implementações.
+
+Mais do que aprender uma ferramenta, o objetivo é compreender como resolver problemas reais de orquestração em sistemas distribuídos.
+
+---
+
+🏢 Problema de Negócio
+
+Em aplicações modernas, diversas etapas precisam ser executadas em sequência:
+
+1. Receber um arquivo;
+2. Validar seu conteúdo;
+3. Processar os dados;
+4. Publicar eventos;
+5. Notificar consumidores;
+6. Monitorar a execução.
+
+Quando essa coordenação é implementada diretamente no código da aplicação, surgem problemas como:
+
+- Alto acoplamento;
+- Complexidade excessiva;
+- Baixa observabilidade;
+- Dificuldade de recuperação em caso de falhas;
+- Baixa escalabilidade.
+
+O desafio é construir um fluxo resiliente e monitorável utilizando serviços gerenciados da AWS.
+
+---
+
+🌎 Contexto
+
+Arquiteturas modernas são cada vez mais orientadas a eventos e compostas por microsserviços.
+
+Nesse cenário, torna-se necessário:
+
+- Coordenar tarefas;
+- Implementar mecanismos de retry;
+- Tratar exceções;
+- Garantir observabilidade;
+- Desacoplar componentes.
+
+O AWS Step Functions atua como um orquestrador visual, permitindo que cada serviço mantenha responsabilidade única enquanto o fluxo é coordenado por uma máquina de estados.
+
+---
+
+📋 Premissas
+
+Durante o desenvolvimento foram consideradas as seguintes premissas:
+
+- O arquivo recebido deve possuir extensão válida;
+- O processamento é executado por funções Lambda;
+- Notificações são publicadas utilizando Amazon SNS;
+- O desacoplamento entre produtores e consumidores é realizado através do Amazon SQS;
+- Falhas são esperadas em sistemas distribuídos e devem ser tratadas;
+- Logs e métricas fazem parte da arquitetura, e não são adicionados posteriormente.
+
+---
+
+🏗 Arquitetura da Solução
+
+Input
+  │
+  ▼
+AWS Step Functions
+  │
+  ▼
+Validate File Lambda
+  │
+  ▼
+Process Data Lambda
+  │
+  ▼
+Notify Execution Lambda
+  │
+  ▼
+Amazon SNS
+  │
+  ▼
+Amazon SQS
+  │
+  ▼
+Consumers
+  │
+  ▼
+CloudWatch Logs
+
+---
+
+⚙ Estratégia da Solução
+
+A estratégia utilizada foi dividida em etapas:
+
+1. Entendimento do problema
+
+Identificar como aplicações distribuídas coordenam tarefas e tratam falhas.
+
+2. Construção da máquina de estados
+
+Utilizando AWS Step Functions.
+
+3. Implementação das funções Lambda
+
+- validate_file
+- process_data
+- notify_execution
+
+4. Integração com serviços de mensageria
+
+- Amazon SNS
+- Amazon SQS
+
+5. Tratamento de erros
+
+Aplicando:
+
+- Retry Pattern;
+- Catch Pattern;
+- Fail State.
+
+6. Observabilidade
+
+Integração com:
+
+- CloudWatch Logs;
+- Metrics;
+- Tracing.
+
+---
+
+⚡ Decisões Técnicas
+
+Por que AWS Step Functions?
+
+Porque permite:
+
+- Criar workflows visualmente;
+- Reduzir código de orquestração;
+- Melhorar observabilidade;
+- Implementar retries nativamente.
+
+Alternativas consideradas
+
+- Implementar toda a lógica em uma única Lambda;
+- EventBridge;
+- Código procedural tradicional.
+
+Trade-offs
+
+Foi escolhida uma arquitetura baseada em State Machines porque ela proporciona:
+
+✔ Maior legibilidade;
+
+✔ Melhor manutenção;
+
+✔ Recuperação automática de falhas;
+
+✔ Menor acoplamento entre componentes.
+
+---
+
+🛠 Tecnologias Utilizadas
+
+Serviços AWS
+
+- AWS Step Functions
+- AWS Lambda
+- Amazon SNS
+- Amazon SQS
+- Amazon DynamoDB
+- Amazon CloudWatch
+
+Linguagem
+
+- Python 3.13
+
+SDK
+
+- boto3
+
+Conceitos
+
+- Serverless Computing
+- Event-Driven Architecture
+- Retry Pattern
+- Fail Fast
+- Observabilidade
+- State Machines
+
+---
+
+📂 Estrutura do Repositório
+
+workflows-com-AWS-Step-Functions/
+│
+├── docs/
+├── workflows/
+├── lambda/
+├── examples/
+├── notes/
+├── references/
+├── images/
+│
+├── .gitignore
+├── LICENSE
+└── README.mdNa próxima parte do README serão incluídas:
+
+Como executar o projeto;
+
+Estrutura das Lambdas;
+
+Workflows implementados;
+
+Integrações com SNS, SQS, ECS e EKS;
+
+Observabilidade;
+
+Insights e aprendizados;
+
+Resultados;
+
+Próximos passos;
+
+Referências;
+
+---
+
+
+
+
+---
+---
+
 # file-validation-workflow
 
 
