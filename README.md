@@ -2,6 +2,12 @@
 
 <img width="105" height="120" alt="1000127839" src="https://github.com/user-attachments/assets/19a72c1f-9f5d-4efc-93db-3fdae64064a0" />
 
+## Explorando Workflows Automatizados com AWS Step Functions. 
+
+
+## DESCRIÇÃO:
+
+Explore o AWS Step Functions, serviço de orquestração de fluxos de trabalho, que permite integrar e automatizar serviços da AWS (como Lambda, S3, SNS, SQS e DynamoDB) de forma visual e com pouco código. Durante a prática, crie e executar workflows para validar arquivos, acionar funções, coordenar serviços e monitorar execuções, aplicando conceitos de automação, mensageria e boas práticas de arquitetura em nuvem.
 
 
 ---
