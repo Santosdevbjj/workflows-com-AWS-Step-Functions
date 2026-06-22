@@ -1142,3 +1142,26 @@ Aproxima a estrutura do padrão utilizado em documentações corporativas e proj
 ---
 
 
+
+# .gitignore
+
+
+Este .gitignore está preparado para futuras evoluções do projeto envolvendo:
+
+
+AWS Lambda
+AWS Step Functions
+Terraform
+AWS CDK
+Docker
+GitHub Actions
+Testes automatizados
+Python 3.13+
+Serverless Framework
+e segue um padrão semelhante ao utilizado em projetos profissionais e open source. 
+
+
+
+---
+
+
