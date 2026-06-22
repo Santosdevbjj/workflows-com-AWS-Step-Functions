@@ -600,6 +600,130 @@ REPORT RequestId: xxxxx
 
 
 
+# Fluxo da Lambda
+
+
+```
+AWS Step Functions
+         |
+         ▼
+Process Data Lambda
+         |
+         ▼
+Simula processamento
+         |
+         ▼
+Retorna resultado
+
+```
+
+---
+
+
+# Exemplo de entrada
+
+```
+
+
+{
+  "filename": "clientes.csv"
+}
+
+
+```
+
+---
+
+
+# Saída esperada
+
+```
+
+
+{
+  "status": "processed",
+  "filename": "clientes.csv",
+  "records_processed": 1000,
+  "processed_at": "2026-06-22T15:30:10.123456"
+}
+
+
+```
+
+---
 
 
 
+# Logs gerados no CloudWatch
+
+
+```
+
+START RequestId: xxxxx
+
+INFO Iniciando processamento do arquivo
+INFO Processando arquivo: clientes.csv
+INFO 1000 registros processados com sucesso
+
+END RequestId: xxxxx
+REPORT RequestId: xxxxx
+
+
+
+```
+
+---
+
+
+# Boas práticas implementadas
+
+# Logging estruturado
+
+```
+
+
+
+logger.info("Processando arquivo")
+
+```
+
+---
+
+
+# Tratamento de exceções
+
+```
+
+try:
+    ...
+except Exception as error:
+    ...
+
+
+
+```
+
+---
+
+# Responsabilidade única
+
+A Lambda é responsável apenas pelo processamento.
+A orquestração permanece no AWS Step Functions.
+
+
+
+# Desacoplamento
+
+A função pode ser reutilizada por:
+Step Functions;
+EventBridge;
+SQS;
+SNS;
+
+
+
+---
+
+
+
+API Gateway.
