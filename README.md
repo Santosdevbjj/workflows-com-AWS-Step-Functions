@@ -384,9 +384,7 @@ Abra um Pull Request descrevendo o problema que a contribuição resolve.
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Sérgio_Santos-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/santossergioluiz)
 [![GitHub](https://img.shields.io/badge/GitHub-Santosdevbjj-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Santosdevbjj)
 
----
 
-> *O mercado não contrata quem conhece ferramentas. O mercado contrata quem resolve problemas utilizando ferramentas.*
 
 ---
 
