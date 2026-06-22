@@ -245,4 +245,110 @@ Consumer Service
 
 
 
+# Exemplo de entrada
+
+```
+
+{
+  "filename": "clientes.csv",
+  "event": "file_processed",
+  "status": "success"
+}
+
+
+
+```
+
+---
+
+
+
+# Exemplo de mensagem enviada para SQS
+
+```
+
+{
+  "filename": "clientes.csv",
+  "event": "file_processed",
+  "status": "success"
+}
+
+
+
+```
+---
+
+# Fluxo
+
+
+```
+
+
+Step Functions
+      |
+      ▼
+Send Message
+      |
+      ▼
+Amazon SQS
+      |
+      ▼
+Success
+
+
+```
+
+---
+
+
+Padrões Arquiteturais Aplicados
+Publish/Subscribe Pattern
+SNS distribui eventos para múltiplos consumidores.
+
+
+```
+
+Publisher
+    |
+    ▼
+   SNS
+ ┌──┼──┐
+ ▼  ▼  ▼
+A  B  C
+
+
+```
+
+---
+
+
+Queue-Based Load Leveling
+SQS absorve picos de carga.
+
+```
+
+Producer
+    |
+    ▼
+   SQS
+    |
+    ▼
+Consumer 
+
+```
+
+---
+
+
+
+Retry Pattern
+Recuperação automática de falhas transitórias.
+Fail Fast
+Encerramento controlado em caso de erro. 
+
+
+
+---
+
+
 
