@@ -949,4 +949,22 @@ em um padrão bastante próximo de aplicações distribuídas modernas utilizada
 
 ---
 
+examples/input.json
+Este arquivo representa a entrada inicial do workflow do AWS Step Functions.
+
+
+Descrição
+Campo
+Tipo
+Descrição
+filename
+string
+Nome do arquivo que será processado 
+
+
+
+---
+
+
+
 
