@@ -143,6 +143,106 @@ Fail
 ---
 
 
+# sns-notification-workflow
+
+
+## Arquitetura
+
+```
+
+Process Data
+      |
+      ▼
+Publish SNS Event
+      |
+      ▼
+SNS Topic
+      |
+      ▼
+Subscribers
+(Lambda, Email, SQS, etc.)
+
+
+```
+
+---
+
+
+ # Exemplo de entrada
+
+ ```
+
+{
+  "event": "file_processed",
+  "filename": "clientes.csv",
+  "status": "success"
+}
+
+
+```
+
+---
+
+
+
+# Exemplo de mensagem enviada ao SNS
+
+```
+
+{
+  "event": "file_processed",
+  "filename": "clientes.csv",
+  "status": "success"
+}
+
+```
+
+---
+
+
+
+
+# Fluxo
+
+
+```
+
+Process Data
+      |
+      ▼
+Publish Notification
+      |
+      ▼
+SNS Topic
+      |
+      ▼
+Success
+
+
+```
+
+---
+
+
+# workflows/sqs-processing-workflow
+
+```
+
+Step Functions
+       |
+       ▼
+Send Message
+       |
+       ▼
+Amazon SQS
+       |
+       ▼
+Consumer Service
+
+```
+
+---
+
 
 
 
