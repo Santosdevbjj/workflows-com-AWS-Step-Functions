@@ -1023,3 +1023,122 @@ SUCCESS
 
 
 
+# examples/error-response.json
+
+
+Representa um cenário de falha durante a validação.
+
+## Cenário correspondente
+
+```
+
+Input
+   |
+   ▼
+Validate File
+   |
+Arquivo válido?
+   |
+  Não
+   |
+   ▼
+Fail State
+
+
+```
+
+---
+
+
+# Estrutura da pasta examples
+
+```
+
+examples/
+│
+├── input.json
+├── output.json
+├── success-response.json
+└── error-response.json
+
+
+```
+
+---
+
+# Exemplos de execução
+
+## Entrada
+
+
+```
+
+{
+  "filename": "clientes.csv"
+}
+
+```
+
+
+## Saída
+
+
+```
+
+{
+  "status": "success",
+  "records_processed": 1000
+}
+
+
+```
+
+# Entrada inválida
+
+```
+{
+  "filename": "clientes.exe"
+}
+
+
+
+```
+
+# Saída
+
+
+```
+
+{
+  "status": "failed",
+  "error": "InvalidFile"
+}
+
+
+```
+
+
+
+
+
+# Benefícios desta pasta
+
+## Documentação
+Facilita a compreensão do projeto.
+
+## Testes
+Permite simular execuções.
+
+## Reprodutibilidade
+Qualquer pessoa consegue entender rapidamente o fluxo.
+
+## Portfólio
+Aumenta a legibilidade do repositório
+
+## Engenharia
+Aproxima a estrutura do padrão utilizado em documentações corporativas e projetos open source.
+
+
+---
+
+
